@@ -11,7 +11,7 @@ const Form = () => {
   formData.append("file", file);
 
   const fetchImgs = async () => {
-    const response = await axios.get("http://localhost:9000");
+    const response = await axios.get("https://task36-amber.vercel.app/");
     // console.log(response.data.data);
     setFetchData(response.data.data);
   };
@@ -26,7 +26,7 @@ const Form = () => {
       return;
     }
 
-    const response = await axios.post("http://localhost:9000/upload", formData);
+    const response = await axios.post("https://task36-amber.vercel.app/upload", formData);
     setFile({file:""});
     fetchImgs();
   };
