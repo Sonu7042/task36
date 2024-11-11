@@ -3,7 +3,7 @@ const multer = require("multer");
 const cors = require("cors");
 const bodyParser= require('body-parser')
 const {mongoConnect, imgModel}= require('./db')
-const uploadFile = require('./Helper/index')
+const storage = require('./Helper/index')
 
 
 mongoConnect()
@@ -12,26 +12,13 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }))
 
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "upload"); 
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-})
-
-
-const upload = multer({ storage });
-
-
-
+const upload = multer({ storage:storage });
 
 app.post("/upload", upload.single("file"),async(req, res) => {
   try{
-    const {originalname, filename}=req.file
-    const url= await uploadFile(req.file.path)
-    const img= await imgModel.create({originalname, filename, path:url.secure_url})
+    const {originalname, filename, path}=req.file
+    console.log(path)
+    const img= await imgModel.create({originalname, filename, path})
 
     res.status(201).json({
       message:"Img upload Successfully",

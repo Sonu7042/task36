@@ -3,6 +3,11 @@ import { useState } from "react";
 import axios from "axios";
 
 const Form = () => {
+  
+  // const hostname="https://task36-amber.vercel.app"
+  const hostname= "http://localhost:9000"
+  
+
   const [file, setFile] = useState({file:""});
 
   const [fetchData, setFetchData] = useState([]);
@@ -10,11 +15,12 @@ const Form = () => {
   const formData = new FormData();
   formData.append("file", file);
 
+  
   const fetchImgs = async () => {
-    const response = await axios.get("https://task36-amber.vercel.app/");
-    // console.log(response.data.data);
+    const response = await axios.get(hostname);
     setFetchData(response.data.data);
   };
+
 
   useEffect(() => {
     fetchImgs();
@@ -26,7 +32,7 @@ const Form = () => {
       return;
     }
 
-    const response = await axios.post("https://task36-amber.vercel.app/upload", formData);
+    const response = await axios.post(`${hostname}/upload`, formData);
     setFile({file:""});
     fetchImgs();
   };
@@ -41,7 +47,7 @@ const Form = () => {
 
       <div className="showImgDiv">
         {!fetchData.length ? (
-          <p style={{textAlign:"center"}}>loading...</p>
+          <p style={{textAlign:"center"}}>No Data Found</p>
         ) : (
           fetchData.map((img, index) => {
             return (
