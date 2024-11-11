@@ -4,8 +4,8 @@ import axios from "axios";
 
 const Form = () => {
   
-  // const hostname="https://task36-amber.vercel.app"
-  const hostname= "http://localhost:9000"
+  const hostname="https://task36-amber.vercel.app"
+  // const hostname= "http://localhost:9000"
   
 
   const [file, setFile] = useState({file:""});
@@ -15,7 +15,7 @@ const Form = () => {
   const formData = new FormData();
   formData.append("file", file);
 
-  
+
   const fetchImgs = async () => {
     const response = await axios.get(hostname);
     setFetchData(response.data.data);
